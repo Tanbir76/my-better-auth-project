@@ -1,5 +1,5 @@
-Project Name: MY BETTER AUTH PROJECT
-env-need-URL:
+🧾Project Name: MY BETTER AUTH PROJECT,
+📁env-need-URL:
 BETTER_AUTH_SECRET=
 BETTER_AUTH_URL=
 BETTER_AUTH_DB_URL=(mongodb db)
