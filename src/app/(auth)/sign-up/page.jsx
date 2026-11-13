@@ -4,31 +4,31 @@ import { authClient } from "../../../lib/auth-client";
 import { Button, Description, FieldError, Form, Input, Label, TextField, toast } from "@heroui/react";
 
 const SignUP = () => {
-    const router= useRouter();
-    const onSubmit = async(e) => {
+    const router = useRouter();
+    const onSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData.entries());
         // Convert FormData to plain object
-        const {data:resData, error}= await  authClient.signUp.email({
-            name:data.name,
-            email:data.email,
-            password:data.password,
+        const { data: resData, error } = await authClient.signUp.email({
+            name: data.name,
+            email: data.email,
+            password: data.password,
         })
         console.log(resData, error);
-        if(resData?.user?.name){
+        if (resData?.user?.name) {
             router.push('/sign-in');
             toast.success('Account creat successfully!')
-        }else if(error){
+        } else if (error) {
             toast.error(error.message || "Something went wrong!")
         }
     };
-    const handleGoogleSignIn =async()=>{
-        const resData =await authClient.signIn.social({
-            provider:'google',
+    const handleGoogleSignIn = async () => {
+        const resData = await authClient.signIn.social({
+            provider: 'google',
         });
-        console.log('after google sign in', resData); 
-        if(resData?.user?.name){
+        console.log('after google sign in', resData);
+        if (resData?.user?.name) {
             toast.success('Account creat successfully!')
             router.push('/sign-in')
         }
@@ -65,6 +65,17 @@ const SignUP = () => {
                     <FieldError />
                 </TextField>
                 <TextField
+                   
+                    name="image"
+                    type="file"
+
+                >
+                    <Label>Profile Image URL</Label>
+                    <Input type="url"
+                        placeholder="https://profile-photo.jpg" />
+                    <FieldError />
+                </TextField>
+                <TextField
                     isRequired
                     minLength={8}
                     name="password"
@@ -95,8 +106,8 @@ const SignUP = () => {
                         Reset
                     </Button>
                 </div>
-            <p>OR</p>
-            <Button onClick={handleGoogleSignIn}>Sign in Google</Button>
+                <p>OR</p>
+                <Button onClick={handleGoogleSignIn}>Sign in Google</Button>
             </Form>
         </div>
     );

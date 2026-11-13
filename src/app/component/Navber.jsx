@@ -1,10 +1,11 @@
 'use client'
 import { useState } from "react";
-import { Link, Button, Spinner } from "@heroui/react";
+import { Link, Button, Spinner, Avatar } from "@heroui/react";
 import { signOut, useSession } from "@/lib/auth-client";
 
 export default function Navber() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
     const {data:session , isPending }=useSession();
 
     const tebLink = <>
@@ -14,8 +15,8 @@ export default function Navber() {
             </Link>
         </li>
         <li>
-            <Link href="#" className="block py-2 font-medium text-accent">
-                Dashboard
+            <Link href={'/detailes'} className="block py-2 font-medium text-accent">
+                Detailes
             </Link>
         </li>
         <li>
@@ -27,7 +28,13 @@ export default function Navber() {
     </>
     const authLink = <>
     {
-        isPending? (<p> <Spinner size="xl" /></p>):session?.user?<><p>Welcome, Mr. {session.user.name}</p>
+        isPending? (<p> <Spinner size="xl" /></p>):session?.user?<><p> Mr. {session.user.name}</p>
+      <Link href="/profile">
+      <Avatar className="rounded-2xl">
+      <Avatar.Image alt="John Doe" src={session?.user?.image} />
+      <Avatar.Fallback className="rounded-lg">{session?.user?.name?.charAt(0).toUpperCase()}</Avatar.Fallback>
+    </Avatar>
+    </Link>
         <Button onClick={() => signOut()}>Sign OUT</Button></>:<>
         <Link href="../sign-in">Login</Link>
          <Link href="../sign-up"><Button>Sign Up</Button></Link>
